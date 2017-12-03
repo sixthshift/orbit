@@ -10,6 +10,8 @@ class Event(Page, TimeFramedModel):
     end = models.DateTimeField()
     # attendance = models.ManyToManyField(Account)
 
+    default_code = 'EVENT'
+
     # TODO ensure start is before end
 
     @property

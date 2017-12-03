@@ -30,6 +30,12 @@ class ProjectForm(PageForm):
             }),
         }
 
+    def save(self, commit=True):
+        project = super(ProjectForm, self).save(commit=False)
+
+        if commit:
+            project.save()
+
 
 class TaskForm(PageForm):
 

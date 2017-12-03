@@ -17,7 +17,15 @@ class Page(SoftDeletableModel):
     group_id = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
     version = models.IntegerField()
     changelog = models.CharField(max_length=50, blank=True)
+    code = models.CharField(max_length=5)
+    increment = models.PositiveSmallIntegerField()
+
+    default_code = 'PAGE'
+
     objects = PageManager()
+
+    class Meta:
+        unique_together = ('code', 'increment', 'version')
 
     def get_absolute_url(self):
         return reverse('pages:detail', kwargs={'slug': self.slug})
@@ -30,13 +38,13 @@ class Page(SoftDeletableModel):
         return self.__class__.__name__
 
     def save(self, *args, **kwargs):
-        self.slug = self.slugify()
+        self.slug = self.slugify().upper()  # uuslug automatically toLowers
         super(Page, self).save(*args, **kwargs)
 
     def slugify(self):
         if self.is_removed:
             # append version number to slug to distinguish between versions
-            return uuslug.slugify(self.title + '-' + str(self.version))
+            return uuslug.slugify(self.code + '-' + str(self.increment) + '-' + str(self.version))
         else:
             # no version appended means latest version
-            return uuslug.slugify(self.title)
+            return uuslug.slugify(self.code + '-' + str(self.increment))

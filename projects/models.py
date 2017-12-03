@@ -5,7 +5,6 @@ from pages.models import Page
 
 class Project(Page):
     deadline = models.DateTimeField(blank=True, null=True)
-    code = models.CharField(max_length=5, unique=True)
 
     to_do = 0
     in_progress = 1
@@ -26,10 +25,6 @@ class Project(Page):
 class Task(Page):
     task_project = models.ForeignKey(Project)
     column = models.CharField(max_length=1, choices=Project.columns, default=0)
-    code = models.PositiveSmallIntegerField(unique=True)
-
-    class Meta:
-        unique_together = ('task_project', 'code')
 
     def get_absolute_url(self):
         project_slug = self.task_project.slug

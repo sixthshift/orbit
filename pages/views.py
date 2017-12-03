@@ -10,6 +10,10 @@ class PageDetailView(LoginRequiredMixin, DetailView):
     template_name = 'pages/detail.html'
     model = Page
 
+    def get_object(self, queryset=None):
+        self.kwargs[self.slug_url_kwarg] = self.kwargs[self.slug_url_kwarg].upper()
+        return super(PageDetailView, self).get_object(queryset)
+
     def render_to_response(self, context, **response_kwargs):
         page = Page.objects.get_subclass(pk=self.object.pk)
         if type(page) == self.model:
