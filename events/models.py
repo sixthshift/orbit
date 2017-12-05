@@ -10,8 +10,6 @@ class Event(Page, TimeFramedModel):
     end = models.DateTimeField()
     # attendance = models.ManyToManyField(Account)
 
-    default_code = 'EVENT'
-
     # TODO ensure start is before end
 
     @property
@@ -30,7 +28,7 @@ class Event(Page, TimeFramedModel):
         return self.start.strftime('%Y, %b %d, %I:%M%p') + ' - ' + self.end.strftime('%Y, %b %d, %I:%M%p')
 
     def get_absolute_url(self):
-        return reverse('events:detail', kwargs={'slug': self.slug})
+        return reverse('events:detail', kwargs={'pk': self.pk})
 
     def get_absolute_history_url(self):
-        return reverse('events:history', kwargs={'slug': self.slug})
+        return reverse('events:history', kwargs={'pk': self.pk})

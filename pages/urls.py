@@ -8,23 +8,23 @@ urlpatterns = [
         name='create'
     ),
     url(
-        regex=r'^index/?$',
-        view=PageIndexView.as_view(),
-        name='index'
-    ),
-    url(
-        regex=r'^(?P<slug>[^/]+)/update/?$',
+        regex=r'^(?P<pk>[^/]+)/update/?$',
         view=PageUpdateView.as_view(),
         name='update'
     ),
     url(
-        regex=r'^(?P<slug>[^/]+)/history/?$',
+        regex=r'^(?P<pk>[^/]+)/history/?$',
         view=PageHistoryView.as_view(),
         name='history'
     ),
     url(
-        regex=r'^(?P<slug>[^/]+)/?$',
+        regex=r'^(?P<pk>[^/]+)/?$',
         view=PageDetailView.as_view(),
         name='detail'
+    ),
+    url(
+        regex=r'',
+        view=PageIndexView.as_view(),
+        name='index'
     ),
 ]

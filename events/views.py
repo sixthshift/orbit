@@ -20,9 +20,6 @@ class EventCreateView(PageCreateView):
     model = Event
     form_class = EventForm
 
-    def get_success_url(self, **kwargs):
-        return reverse('events:detail', kwargs={'slug': self.object.slug})
-
 
 class EventDetailView(PageDetailView):
     template_name = 'events/detail.html'
@@ -44,6 +41,3 @@ class EventUpdateView(PageUpdateView):
     template_name = 'events/form.html'
     model = Event
     form_class = EventForm
-
-    def get_success_url(self, **kwargs):
-        return reverse('events:detail', kwargs={'slug': self.object.slug})

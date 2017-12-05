@@ -7,25 +7,10 @@ from .forms import ProjectForm, TaskForm
 from .models import Project, Task
 
 
-class ProjectBoardView(PageDetailView):
-    template_name = 'projects/board.html'
-    model = Project
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(ProjectBoardView, self).get_context_data(*args, **kwargs)
-        context['to_do'] = Task.objects.filter(task_project=self.object, column=Project.to_do)
-        context['in_progress'] = Task.objects.filter(task_project=self.object, column=Project.in_progress)
-        context['completed'] = Task.objects.filter(task_project=self.object, column=Project.completed)
-        return context
-
-
 class ProjectCreateView(PageCreateView):
     template_name = 'projects/form.html'
     model = Project
     form_class = ProjectForm
-
-    def get_success_url(self, **kwargs):
-        return reverse('projects:detail', kwargs={'slug': self.object.slug})
 
 
 class ProjectDetailView(PageDetailView):
@@ -62,12 +47,12 @@ class TaskCreateView(PageCreateView):
 
     def get_form_kwargs(self):
         kwargs = super(TaskCreateView, self).get_form_kwargs()
-        kwargs['project'] = get_object_or_404(Project, slug=self.kwargs['slug'])
+        kwargs['project'] = get_object_or_404(Project, pk=self.kwargs['pk'])
         return kwargs
 
     def get_success_url(self, **kwargs):
-        project_slug = self.kwargs.get('slug')
-        return reverse('projects:task_detail', kwargs={'project_slug': project_slug, 'task_slug': self.object.slug})
+        project_pk = self.kwargs.get('pk')
+        return reverse('projects:task_detail', kwargs={'project_pk': project_pk, 'task_pk': self.object.pk})
 
 
 class TaskDetailView(PageDetailView):
@@ -75,7 +60,19 @@ class TaskDetailView(PageDetailView):
     model = Task
 
     def get_object(self):
-        project_slug = self.kwargs.get('project_slug')
-        project = get_object_or_404(Project, slug=project_slug)
-        task_slug = self.kwargs.get('task_slug')
-        return get_object_or_404(Task, task_project=project, slug=task_slug)
+        project_pk = self.kwargs.get('project_pk')
+        project = get_object_or_404(Project, pk=project_pk)
+        task_pk = self.kwargs.get('task_pk')
+        return get_object_or_404(Task, task_project=project, pk=task_pk)
+
+
+class TaskIndexView(PageDetailView):
+    template_name = 'projects/tasks/index.html'
+    model = Project
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskIndexView, self).get_context_data(*args, **kwargs)
+        context['to_do'] = Task.objects.filter(task_project=self.object, column=Project.to_do)
+        context['in_progress'] = Task.objects.filter(task_project=self.object, column=Project.in_progress)
+        context['completed'] = Task.objects.filter(task_project=self.object, column=Project.completed)
+        return context

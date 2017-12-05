@@ -38,7 +38,7 @@
                 </button>
               </a>
             {% else %}
-              <a href="{% url 'pages:update' slug=object.slug %}">
+              <a href="{% url 'pages:update' pk=object.pk %}">
                 <button class="btn btn-sm btn-primary">
                   <i class="fa fa-edit"></i> Update
                 </button>

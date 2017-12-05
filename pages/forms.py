@@ -51,16 +51,6 @@ class PageForm(ModelForm):
             page.pk = None
             page.version = self.version + 1
 
-        if page.code is None or page.code == '':
-            page.code = page.default_code
-        increment = Page.objects.filter(code=page.code).aggregate(Max('increment')).get('increment__max')
-        if increment is None or increment == '':
-            increment = 1
-        if page.version == 1:
-            # Creating new page, not updating, so increment
-            page.increment = increment + 1
-        else:
-            page.increment = increment
         if commit:
             page.save()
         return page

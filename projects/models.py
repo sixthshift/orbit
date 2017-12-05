@@ -4,6 +4,7 @@ from pages.models import Page
 
 
 class Project(Page):
+    code = models.CharField(max_length=5)
     deadline = models.DateTimeField(blank=True, null=True)
 
     to_do = 0
@@ -16,10 +17,10 @@ class Project(Page):
     )
 
     def get_absolute_url(self):
-        return reverse('projects:detail', kwargs={'slug': self.slug})
+        return reverse('projects:detail', kwargs={'pk': self.pk})
 
-    def get_absolute_board_url(self):
-        return reverse('projects:board', kwargs={'slug': self.slug})
+    def get_absolute_task_index_url(self):
+        return reverse('projects:task_index', kwargs={'pk': self.pk})
 
 
 class Task(Page):
@@ -27,6 +28,6 @@ class Task(Page):
     column = models.CharField(max_length=1, choices=Project.columns, default=0)
 
     def get_absolute_url(self):
-        project_slug = self.task_project.slug
-        task_slug = self.slug
-        return reverse('projects:task_detail', kwargs={'project_slug': project_slug, 'task_slug': task_slug})
+        project_pk = self.task_project.pk
+        task_pk = self.pk
+        return reverse('projects:task_detail', kwargs={'project_pk': project_pk, 'task_pk': task_pk})

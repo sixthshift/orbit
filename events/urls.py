@@ -19,24 +19,25 @@ urlpatterns = [
         view=EventCreateView.as_view(),
         name='create'
     ),
+
     url(
-        regex=r'^index/?$',
-        view=EventIndexView.as_view(),
-        name='index'
-    ),
-    url(
-        regex=r'^(?P<slug>[^/]+)/update/?$',
+        regex=r'^(?P<pk>[^/]+)/update/?$',
         view=EventUpdateView.as_view(),
         name='update'
     ),
     url(
-        regex=r'^(?P<slug>[^/]+)/history/?$',
+        regex=r'^(?P<pk>[^/]+)/history/?$',
         view=EventHistoryView.as_view(),
         name='history'
     ),
     url(
-        regex=r'^(?P<slug>[^/]+)/?$',
+        regex=r'^(?P<pk>[^/]+)/?$',
         view=EventDetailView.as_view(),
         name='detail'
+    ),
+    url(
+        regex=r'',
+        view=EventIndexView.as_view(),
+        name='index'
     ),
 ]

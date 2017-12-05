@@ -30,7 +30,7 @@
               <i class="fa fa-tag"></i>
             </button>
           </a>
-          <a href="{{ object.get_absolute_board_url }}">
+          <a href="{{ object.get_absolute_task_index_url }}">
             <button class="btn btn-sm btn-warning" type="button">
               <i class="fa fa-table"></i> Project Board
             </button>
@@ -42,7 +42,7 @@
               </button>
             </a>
           {% else %}
-            <a href="{% url 'projects:update' slug=object.slug %}">
+            <a href="{% url 'projects:update' pk=object.pk %}">
               <button class="btn btn-sm btn-primary">
                 <i class="fa fa-edit"></i> Update
               </button>

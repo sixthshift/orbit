@@ -10,10 +10,6 @@ class PageDetailView(LoginRequiredMixin, DetailView):
     template_name = 'pages/detail.html'
     model = Page
 
-    def get_object(self, queryset=None):
-        self.kwargs[self.slug_url_kwarg] = self.kwargs[self.slug_url_kwarg].upper()
-        return super(PageDetailView, self).get_object(queryset)
-
     def render_to_response(self, context, **response_kwargs):
         page = Page.objects.get_subclass(pk=self.object.pk)
         if type(page) == self.model:
@@ -43,14 +39,14 @@ class PageCreateView(LoginRequiredMixin, CreateView):
         return kwargs
 
     def get_success_url(self, **kwargs):
-        return reverse('pages:detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
 
 class PageHistoryView(LoginRequiredMixin, DetailView):
     template_name = 'pages/history.html'
     model = Page
 
-    def get_context_data(self):
+    def get_context_data(self, *args, **kwargs):
         context = super(PageHistoryView, self).get_context_data(*args, **kwargs)
         context['object_list'] = Page.objects.filter(group_id=self.object.group_id).order_by('creation_date').select_subclasses()
         return context
@@ -89,7 +85,7 @@ class PageUpdateView(LoginRequiredMixin, UpdateView):
         return kwargs
 
     def get_success_url(self, **kwargs):
-        return reverse('pages:detail', kwargs={'slug': self.object.slug})
+        return self.object.get_absolute_url()
 
     def render_to_response(self, context, **response_kwargs):
         page = Page.objects.get_subclass(pk=self.object.pk)

@@ -14,7 +14,7 @@
     </div>
     <div class="col-sm-6 col-xs-12">
       <div class="pull-right">
-        <a href="{% url 'projects:task_create' slug=object.slug %}">
+        <a href="{% url 'projects:task_create' pk=object.pk %}">
           <button class="btn btn-sm btn-default">
             <span>New Task</span>
           </button>
