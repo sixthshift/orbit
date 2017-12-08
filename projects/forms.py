@@ -58,12 +58,6 @@ class TaskForm(PageForm):
     def save(self, commit=True):
         task = super(TaskForm, self).save(commit=False)
         task.task_project = self.project
-        code = Task.objects.filter(task_project=self.project).aggregate(Max('code')).get('code__max')
-        if code is None:
-            code = 1
-        else:
-            code += 1
-        task.code = code
         if commit:
             task.save()
         return task
