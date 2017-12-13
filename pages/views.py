@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from .forms import PageForm
 from .models import Page
@@ -9,13 +8,6 @@ from .models import Page
 class PageDetailView(LoginRequiredMixin, DetailView):
     template_name = 'pages/detail.html'
     model = Page
-
-    def render_to_response(self, context, **response_kwargs):
-        page = Page.objects.get_subclass(pk=self.object.pk)
-        if type(page) == self.model:
-            return super(PageDetailView, self).render_to_response(context, **response_kwargs)
-        else:
-            return redirect(page, permanent=True)
 
 
 class PageCreateView(LoginRequiredMixin, CreateView):
@@ -48,19 +40,14 @@ class PageHistoryView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PageHistoryView, self).get_context_data(*args, **kwargs)
-        context['object_list'] = Page.objects.filter(group_id=self.object.group_id).order_by('creation_date').select_subclasses()
+        context['object_list'] = Page.objects.filter(group_id=self.object.group_id).order_by('creation_date')
         return context
 
 
 class PageIndexView(LoginRequiredMixin, ListView):
     template_name = 'pages/index.html'
     model = Page
-    queryset = Page.objects.filter(is_removed=False).select_subclasses()  # Refers to the 'All' Tab in the index
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(PageIndexView, self).get_context_data(*args, **kwargs)
-        context['recently_modified'] = Page.objects.filter(is_removed=False).order_by('creation_date').select_subclasses()
-        return context
+    queryset = Page.active_pages.all()
 
 
 class PageUpdateView(LoginRequiredMixin, UpdateView):
@@ -86,10 +73,3 @@ class PageUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self, **kwargs):
         return self.object.get_absolute_url()
-
-    def render_to_response(self, context, **response_kwargs):
-        page = Page.objects.get_subclass(pk=self.object.pk)
-        if type(page) == self.model and not page.is_removed:
-            return super(PageUpdateView, self).render_to_response(context, **response_kwargs)
-        else:
-            return redirect(page, permanent=True)

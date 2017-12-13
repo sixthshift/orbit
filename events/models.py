@@ -2,10 +2,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.timesince import timesince
 from model_utils.models import TimeFramedModel
-from pages.models import Page
+from pages.models import BasePage
 
 
-class Event(Page, TimeFramedModel):
+class Event(BasePage, TimeFramedModel):
     start = models.DateTimeField()
     end = models.DateTimeField()
     # attendance = models.ManyToManyField(Account)

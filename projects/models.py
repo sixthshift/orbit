@@ -1,9 +1,9 @@
 from django.db import models
 from django.urls import reverse
-from pages.models import Page
+from pages.models import BasePage
 
 
-class Project(Page):
+class Project(BasePage):
     code = models.CharField(max_length=5)
     deadline = models.DateTimeField(blank=True, null=True)
 
@@ -23,7 +23,7 @@ class Project(Page):
         return reverse('projects:task_index', kwargs={'pk': self.pk})
 
 
-class Task(Page):
+class Task(BasePage):
     task_project = models.ForeignKey(Project)
     column = models.CharField(max_length=1, choices=Project.columns, default=0)
 
