@@ -19,7 +19,6 @@ urlpatterns = [
         view=EventCreateView.as_view(),
         name='create'
     ),
-
     url(
         regex=r'^(?P<pk>[^/]+)/update/?$',
         view=EventUpdateView.as_view(),

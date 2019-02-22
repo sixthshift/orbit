@@ -41,7 +41,7 @@ class PageForm(ModelForm):
         if self.version is None:
             page.version = 1
         else:
-            existing_page = Page.objects.get(pk=page.pk)
+            existing_page = self.Meta.model.objects.get(pk=page.pk)
             existing_page.is_removed = True
             existing_page.save()
 

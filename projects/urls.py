@@ -2,6 +2,7 @@ from django.conf.urls import url
 from .views import (
     ProjectCreateView,
     ProjectDetailView,
+    ProjectHistoryView,
     ProjectIndexView,
     ProjectUpdateView,
     TaskCreateView,
@@ -34,6 +35,11 @@ urlpatterns = [
         regex=r'^(?P<pk>[^/]+)/update/?$',
         view=ProjectUpdateView.as_view(),
         name='update'
+    ),
+    url(
+        regex=r'^(?P<pk>[^/]+)/history/?$',
+        view=ProjectHistoryView.as_view(),
+        name='history'
     ),
     url(
         regex=r'^(?P<pk>[^/]+)/?$',

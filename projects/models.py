@@ -16,8 +16,14 @@ class Project(BasePage):
         (completed, 'completed'),
     )
 
+    class Meta:
+        unique_together = ('code', 'version')
+
     def get_absolute_url(self):
         return reverse('projects:detail', kwargs={'pk': self.pk})
+
+    def get_absolute_history_url(self):
+        return reverse('projects:history', kwargs={'pk': self.pk})
 
     def get_absolute_task_index_url(self):
         return reverse('projects:task_index', kwargs={'pk': self.pk})

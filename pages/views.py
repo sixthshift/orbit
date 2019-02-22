@@ -40,14 +40,16 @@ class PageHistoryView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PageHistoryView, self).get_context_data(*args, **kwargs)
-        context['object_list'] = Page.objects.filter(group_id=self.object.group_id).order_by('creation_date')
+        context['object_list'] = self.model.objects.filter(group_id=self.object.group_id).order_by('creation_date')
         return context
 
 
 class PageIndexView(LoginRequiredMixin, ListView):
     template_name = 'pages/index.html'
     model = Page
-    queryset = Page.active_pages.all()
+
+    def get_queryset(self):
+        return self.model.active_pages.all()
 
 
 class PageUpdateView(LoginRequiredMixin, UpdateView):

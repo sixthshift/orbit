@@ -1,0 +1,55 @@
+http://webapplayers.com/inspinia_admin-v2.7.1/#
+
+nav items
+    calendar
+    projects
+    People
+    create button
+        project
+        calendar event
+        group
+        wiki page
+    search
+    profile
+        logout
+        messages/inbox
+        settings
+
+Footer items
+    about-us
+    contact-us
+    help
+    Social Media
+
+general
+      commenting feature
+      file upload - bound to project?
+      monthly task list (horizon?)
+      watch list (update subscription)
+      wiki
+      sign in should ideally be modal popup
+      404 page
+      remember me login
+
+models
+      projects
+      accounts
+      teams/groups
+      events (calendar)
+      tasks
+      tags
+      messages
+      articles
+      files
+
+WYSIWYG Editor checklist
+	font
+	font size
+	tables
+	image embed
+	video embed
+	justification
+	bold/italics
+	dot points
+	number points
+	

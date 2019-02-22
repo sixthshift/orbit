@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView
-from pages.views import PageCreateView, PageDetailView, PageUpdateView
+from pages.views import PageCreateView, PageDetailView, PageHistoryView, PageIndexView, PageUpdateView
 from .forms import ProjectForm, TaskForm
 from .models import Project, Task
 
@@ -18,10 +18,13 @@ class ProjectDetailView(PageDetailView):
     model = Project
 
 
-class ProjectIndexView(LoginRequiredMixin, ListView):
+class ProjectHistoryView(PageHistoryView):
+    model = Project
+
+
+class ProjectIndexView(PageIndexView):
     template_name = 'projects/index.html'
     model = Project
-    queryset = Project.objects.filter(is_removed=False)
 
 
 class ProjectUpdateView(PageUpdateView):

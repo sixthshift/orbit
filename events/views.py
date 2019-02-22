@@ -25,6 +25,14 @@ class EventDetailView(PageDetailView):
     template_name = 'events/detail.html'
     model = Event
 
+    def render_to_response(self, context, **response_kwargs):
+        response = super(EventDetailView, self).render_to_response(context, **response_kwargs)
+        return response
+
+    def as_view(self, cls, **initkwargs):
+        view = super(EventDetailView, self).as_view(cls, **initkwargs)
+        return view
+
 
 class EventHistoryView(PageHistoryView):
     model = Event
